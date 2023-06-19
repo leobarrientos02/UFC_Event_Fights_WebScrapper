@@ -12,7 +12,7 @@ class Fight:
     self.record2 = record2
 
   def __str__(self):
-    return f"{self.fighter1}{self.record1}\n  {self.fighter2}{self.record2}"    
+    return f"{self.fighter1}{self.record1}\n    {self.fighter2}{self.record2}"    
 
 allRecords = []
 leftFighters = []
@@ -23,11 +23,11 @@ rightFightersRecords = []
 def formatRecords():
     maxIndex = len(allRecords) - 1
     index = 0
-    while(index < maxIndex): 
+    while(index <= maxIndex): 
         if (index % 2) == 0:
-            rightFightersRecords.append(allRecords[index])
-        else:
             leftFightersRecords.append(allRecords[index])
+        else:
+            rightFightersRecords.append(allRecords[index])
         index = index + 1
 
 def convertBs4ToString(bs4_array, List, type):
@@ -35,7 +35,6 @@ def convertBs4ToString(bs4_array, List, type):
         for data in bs4_array:
             record = data.get_text().strip()
             List.append("(" + record + ")")
-            formatRecords()
     else:
         for data in bs4_array:
             List.append(data.get_text().strip())
@@ -43,7 +42,7 @@ def convertBs4ToString(bs4_array, List, type):
 def createFight():
     index = 0
     maxIndex = len(leftFighters) - 1
-    while index < maxIndex:
+    while index <= maxIndex:
         fighter1 = leftFighters[index]
         record1 = leftFightersRecords[index]
         fighter2 = rightFighters[index]
@@ -66,6 +65,7 @@ def web_scraper(url):
         convertBs4ToString(bs4RightFighters, rightFighters, 'fighters')
         bs4Records = soup.find_all("div", "fightCardRecord")
         convertBs4ToString(bs4Records, allRecords, 'records')
+        formatRecords()
         createFight()
     except AttributeError:
         print("Issue getting data.")
